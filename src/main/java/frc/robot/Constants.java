@@ -7,8 +7,10 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.SwerveModule;
+import frc.robot.util.SwerveModuleConfig;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -23,12 +25,23 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class SwerveConstants {
+  public static class Swerve {
     public static final double kMaxSpeedTele = 3.0; //Meters per Second
     public static final double kMaxAngularSpeedFast = Math.PI; //Radians per Second
+
+    public static final double kTrackWidth = Units.inchesToMeters(20);
+    public static final double kWheelBase = Units.inchesToMeters(20);
+
+    public static final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+      new Translation2d(kWheelBase / 2.0, kTrackWidth / 2.0),
+      new Translation2d(kWheelBase / 2.0, -kTrackWidth / 2.0),
+      new Translation2d(-kWheelBase / 2.0, kTrackWidth / 2.0),
+      new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0)
+    );
+
   }
 
-  public static class ModuleConstants {
+  public static class Module {
     public static final double kDriveGearRatio = 1.0f / 8.14f;
     public static final double kAngleGearRatio = 1.0f / 12.8f;
 
@@ -38,7 +51,7 @@ public final class Constants {
     public static final double kDrivePositionConversionFactor = kDriveGearRatio * kWheelCircumfrence;
     public static final double kDriveVelocityConverstionFactor = kDrivePositionConversionFactor / 60.0f;
 
-    public static final double kAnglePositionConversionFactor = kAngleGearRatio * 2 * Math.PI;
+    public static final double kAnglePositionConversionFactor = kAngleGearRatio * 360.0;
     public static final double kAngleVelocityConverstionFactor = kAnglePositionConversionFactor / 60.0f;
 
     public static final double kPAngle = 0;
@@ -58,6 +71,10 @@ public final class Constants {
 
     public static final CANSparkMax.IdleMode kDriveIdleMode = CANSparkMax.IdleMode.kBrake;
     public static final CANSparkMax.IdleMode kAngleIdleMode = CANSparkMax.IdleMode.kCoast;
+
+    public static final boolean angleMotorInverted = false;
+    public static final boolean driveMotorInverted = false;
+    public static final boolean absoluteEncoderInverted = false;
   }
 
   public static class Modules {
@@ -67,19 +84,12 @@ public final class Constants {
       public static final int absoluteEncoderID = 0;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
-      
-      public static final boolean driveMotorReversed = false;
-      public static final boolean angleMotorReversed = false;
-      public static final boolean absoluteEncoderReversed = false;
 
-      public static final SwerveModule frontLeft = new SwerveModule(
+      public static final SwerveModuleConfig FL0 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
         absoluteEncoderID, 
-        absoluteEncoderOffset, 
-        driveMotorReversed, 
-        angleMotorReversed, 
-        absoluteEncoderReversed);
+        absoluteEncoderOffset);
     }
 
     public static class FrontRight{
@@ -88,19 +98,12 @@ public final class Constants {
       public static final int absoluteEncoderID = 0;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
-      
-      public static final boolean driveMotorReversed = false;
-      public static final boolean angleMotorReversed = false;
-      public static final boolean absoluteEncoderReversed = false;
 
-      public static final SwerveModule frontRight = new SwerveModule(
+      public static final SwerveModuleConfig FR1 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
         absoluteEncoderID, 
-        absoluteEncoderOffset, 
-        driveMotorReversed, 
-        angleMotorReversed, 
-        absoluteEncoderReversed);
+        absoluteEncoderOffset);
     }
 
     public static class BackLeft{
@@ -109,19 +112,12 @@ public final class Constants {
       public static final int absoluteEncoderID = 0;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
-      
-      public static final boolean driveMotorReversed = false;
-      public static final boolean angleMotorReversed = false;
-      public static final boolean absoluteEncoderReversed = false;
 
-      public static final SwerveModule backLeft = new SwerveModule(
+      public static final SwerveModuleConfig BL2 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
         absoluteEncoderID, 
-        absoluteEncoderOffset, 
-        driveMotorReversed, 
-        angleMotorReversed, 
-        absoluteEncoderReversed);
+        absoluteEncoderOffset);
     }
 
     public static class BackRight{
@@ -130,19 +126,12 @@ public final class Constants {
       public static final int absoluteEncoderID = 0;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
-      
-      public static final boolean driveMotorReversed = false;
-      public static final boolean angleMotorReversed = false;
-      public static final boolean absoluteEncoderReversed = false;
 
-      public static final SwerveModule backRight = new SwerveModule(
+      public static final SwerveModuleConfig BR3 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
         absoluteEncoderID, 
-        absoluteEncoderOffset, 
-        driveMotorReversed, 
-        angleMotorReversed, 
-        absoluteEncoderReversed);
+        absoluteEncoderOffset);
     }
   }
 }
