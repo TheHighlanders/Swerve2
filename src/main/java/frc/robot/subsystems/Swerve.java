@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import org.opencv.core.RotatedRect;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
