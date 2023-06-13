@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.SwerveTeleCMD;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,26 +19,41 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  /* Controllers */
+  private final CommandXboxController driver = new CommandXboxController(0);
 
+
+  /* Drive Controls */
+  private static final int translationAxis = XboxController.Axis.kLeftY.value;
+  private static final int strafeAxis = XboxController.Axis.kLeftX.value;
+  private static final int rotationAxis = XboxController.Axis.kRightX.value;
+
+  /* Subsystems */
+  private final Swerve s_Swerve = new Swerve();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    // Set Default commands for subsystems
+    setDefaultCommands();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
+    driver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+  }
 
+  private void setDefaultCommands() {
+    s_Swerve.setDefaultCommand(new SwerveTeleCMD(
+      s_Swerve,
+      () -> -driver.getRawAxis(translationAxis),
+      () -> -driver.getRawAxis(strafeAxis),
+      () -> -driver.getRawAxis(rotationAxis),
+      () -> driver.povDown().getAsBoolean(),
+      () -> driver.leftBumper().getAsBoolean(),
+      () -> driver.rightBumper().getAsBoolean()
+    ));
   }
 
   /**

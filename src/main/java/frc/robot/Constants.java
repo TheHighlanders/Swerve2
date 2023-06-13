@@ -21,13 +21,12 @@ import frc.robot.util.SwerveModuleConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class Driver {
-    public static final int kDriverControllerPort = 0;
-  }
 
-  public static class Swerve {
+  public static class SwerveConst {
     public static final double kMaxSpeedTele = 3.0; //Meters per Second
-    public static final double kMaxAngularSpeedFast = Math.PI; //Radians per Second
+    public static final double kMaxAngularSpeedFast = Math.PI; //Degrees per Second
+
+    public static final double kStickDeadband = 0.05;
 
     public static final double kTrackWidth = Units.inchesToMeters(20);
     public static final double kWheelBase = Units.inchesToMeters(20);
@@ -39,6 +38,33 @@ public final class Constants {
       new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0)
     );
 
+    public static double speedLimit = 3.0;
+    public static double slowSpeedLimit = 1.0;
+
+    public static double accelerationLimit = 5.0;
+    public static double slowAccelerationLimit = 4.0;
+
+    public static double angularVelocityLimit = 5.0;
+    public static double slowAngularVelocityLimit = 3.0;
+
+  }
+
+  public static class Autonomous{
+    public static final double kPGrid = 0;
+    public static final double kIGrid = 0;
+    public static final double kDGrid = 0;
+
+    public static final double kGridTranslateTol = 0;
+
+
+    public static final double kPGridTheta = 0;
+    public static final double kIGridTheta = 0;
+    public static final double kDGridTheta = 0;
+
+    public static final double kGridThetaTol = 0;
+
+    public static final double kGridLineUpPos = 0.5;
+    public static final double kGridLineUpAngle = 90;
   }
 
   public static class Module {

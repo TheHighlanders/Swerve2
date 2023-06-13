@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants.Module;
-import frc.robot.Constants.Swerve;
+import frc.robot.Constants.SwerveConst;
 import frc.robot.util.SwerveModuleConfig;
 
 public class SwerveModule {
@@ -79,7 +79,7 @@ public class SwerveModule {
      */
     public void setDriveState(SwerveModuleState state, boolean isOpenLoop){
         if(isOpenLoop){
-            double motorPercent = state.speedMetersPerSecond / Swerve.kMaxSpeedTele;
+            double motorPercent = state.speedMetersPerSecond / SwerveConst.kMaxSpeedTele;
             driveMotor.set(motorPercent);
         } else {
             driveController.setReference(state.speedMetersPerSecond, ControlType.kVelocity, 0, 
@@ -95,7 +95,7 @@ public class SwerveModule {
      */
     public void setAngleState(SwerveModuleState state){
         //Anti Jitter Code, not sure if it works, need to test and review
-        Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= Swerve.kMaxAngularSpeedFast * 0.001)
+        Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= SwerveConst.kMaxAngularSpeedFast * 0.001)
         ? lastAngle : state.angle;
 
 

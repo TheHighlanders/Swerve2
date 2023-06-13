@@ -47,7 +47,7 @@ public class Swerve extends SubsystemBase {
 
     field = new Field2d();
 
-    swervePoseEstimator = new SwerveDrivePoseEstimator(Constants.Swerve.kinematics, getYaw(), getModulePositions(), new Pose2d());
+    swervePoseEstimator = new SwerveDrivePoseEstimator(Constants.SwerveConst.kinematics, getYaw(), getModulePositions(), new Pose2d());
 
     chassisSpeeds = new ChassisSpeeds();
     SmartDashboard.putData(field);
@@ -81,9 +81,9 @@ public class Swerve extends SubsystemBase {
       ChassisSpeeds.fromFieldRelativeSpeeds(translate.getX(), translate.getY(), rotate.getDegrees(), getYaw())
       : new ChassisSpeeds(translate.getX(), translate.getY(), rotate.getDegrees());
 
-    SwerveModuleState[] swerveModuleStates = Constants.Swerve.kinematics.toSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] swerveModuleStates = Constants.SwerveConst.kinematics.toSwerveModuleStates(chassisSpeeds);
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.kMaxSpeedTele);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConst.kMaxSpeedTele);
 
     for(SwerveModule m : modules){
       m.setModuleState(swerveModuleStates[m.moduleNumber], isOpenLoop);
