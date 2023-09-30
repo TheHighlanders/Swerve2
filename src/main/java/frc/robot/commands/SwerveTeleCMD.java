@@ -84,14 +84,14 @@ public class SwerveTeleCMD extends CommandBase {
         translationLimiter.setRateLimit(SwerveConst.slowAccelerationLimit);
         strafeLimiter.setRateLimit(SwerveConst.slowAccelerationLimit);
 
-        speedLimit = SwerveConst.slowSpeedLimit ;
+        speedLimit = SwerveConst.slowSpeedLimit;
         angularSpeedLimit = SwerveConst.slowAngularVelocityLimit;
 
       case NORMAL:
-      translationLimiter.setRateLimit(SwerveConst.accelerationLimit);
+        translationLimiter.setRateLimit(SwerveConst.accelerationLimit);
         strafeLimiter.setRateLimit(SwerveConst.accelerationLimit);
 
-        speedLimit = SwerveConst.speedLimit ;
+        speedLimit = SwerveConst.speedLimit;
         angularSpeedLimit = SwerveConst.angularVelocityLimit;
 
       default:

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -10,8 +11,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants.Module;
 import frc.robot.Constants.SwerveConst;
 import frc.robot.util.SwerveModuleConfig;
@@ -30,7 +29,7 @@ public class SwerveModule {
     private RelativeEncoder driveEncoder;
     private RelativeEncoder angleEncoder;
 
-    private AnalogInput absoluteEncoder;
+    private SparkMaxAbsoluteEncoder absoluteEncoder;
 
     private Rotation2d moduleAbsoluteOffset;
     private Rotation2d lastAngle;
@@ -49,7 +48,7 @@ public class SwerveModule {
         /* Creates an additional FF controller for extra drive motor control */
         driveFeedforward = new SimpleMotorFeedforward(Module.kSDrive, Module.kVDrive, Module.kADrive);
 
-        absoluteEncoder = new AnalogInput(config.absoluteEncoderId);
+        absoluteEncoder = angleMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
 
         this.moduleAbsoluteOffset = config.absoluteEncoderOffset;
 
@@ -136,8 +135,8 @@ public class SwerveModule {
      * @return Position of the module between 0 and 360, as a Rotation2d
      */
     public Rotation2d getAbsolutePosition(){
-        /*Gets absolute encoder voltage, and adjusts for fluctuating bus voltage, also converts to radians 0 to 2Pi */
-        double positionDeg = ((absoluteEncoder.getVoltage() / RobotController.getVoltage5V()) * 360.0);
+        /* Gets Position from SparkMAX absol encoder * 360  to degrees */
+        double positionDeg = absoluteEncoder.getPosition() * 360.0d;
         
         /*Subtracts magnetic offset to get wheel position */
         positionDeg -= moduleAbsoluteOffset.getDegrees();
