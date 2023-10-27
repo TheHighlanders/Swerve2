@@ -105,58 +105,50 @@ public final class Constants {
 
   public static class Modules {
     public static class FrontLeft{
-      public static final int driveMotorID = 0;
-      public static final int angleMotorID = 0;
-      public static final int absoluteEncoderID = 0;
+      public static final int driveMotorID = 10;
+      public static final int angleMotorID = 11;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
 
       public static final SwerveModuleConfig FL0 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
-        absoluteEncoderID, 
         absoluteEncoderOffset);
     }
 
     public static class FrontRight{
-      public static final int driveMotorID = 0;
-      public static final int angleMotorID = 0;
-      public static final int absoluteEncoderID = 0;
+      public static final int driveMotorID = 20;
+      public static final int angleMotorID = 21;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
 
       public static final SwerveModuleConfig FR1 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
-        absoluteEncoderID, 
         absoluteEncoderOffset);
     }
 
     public static class BackLeft{
-      public static final int driveMotorID = 0;
-      public static final int angleMotorID = 0;
-      public static final int absoluteEncoderID = 0;
+      public static final int driveMotorID = 40;
+      public static final int angleMotorID = 41;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
 
       public static final SwerveModuleConfig BL2 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
-        absoluteEncoderID, 
         absoluteEncoderOffset);
     }
 
     public static class BackRight{
-      public static final int driveMotorID = 0;
-      public static final int angleMotorID = 0;
-      public static final int absoluteEncoderID = 0;
+      public static final int driveMotorID = 30;
+      public static final int angleMotorID = 31;
 
       public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
 
       public static final SwerveModuleConfig BR3 = new SwerveModuleConfig(
         driveMotorID, 
         angleMotorID, 
-        absoluteEncoderID, 
         absoluteEncoderOffset);
     }
   }
