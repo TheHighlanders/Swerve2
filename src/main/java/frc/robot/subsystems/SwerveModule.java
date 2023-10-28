@@ -228,6 +228,7 @@ public class SwerveModule {
      * Resets the Angle Motor to the position of the absolute position
      */
     public void setIntegratedAngleToAbsolute(){
-        angleEncoder.setPosition(getAbsolutePosition().getDegrees());
+        // Disabled to allow non absolute motor movement for bench testing 10/27 -AH
+        // angleEncoder.setPosition(getAbsolutePosition().getDegrees());
     }
 }
