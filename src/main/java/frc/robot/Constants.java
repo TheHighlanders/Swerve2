@@ -28,8 +28,8 @@ public final class Constants {
 
     public static final double kStickDeadband = 0.05;
 
-    public static final double kTrackWidth = Units.inchesToMeters(20);
-    public static final double kWheelBase = Units.inchesToMeters(20);
+    public static final double kTrackWidth = Units.inchesToMeters(23.5);
+    public static final double kWheelBase = Units.inchesToMeters(23.5);
 
     public static final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
       new Translation2d(kWheelBase / 2.0, kTrackWidth / 2.0),

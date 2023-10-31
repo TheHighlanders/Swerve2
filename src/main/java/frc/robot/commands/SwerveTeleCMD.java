@@ -55,6 +55,8 @@ public class SwerveTeleCMD extends CommandBase {
     this.robotCentricSup = robotCentricSup;
     this.leftBumper = leftBumper;
     this.gridLineUp = gridLineUp;
+
+    addRequirements(s_Swerve);
   }
 
   

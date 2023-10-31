@@ -11,6 +11,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.Module;
 import frc.robot.Constants.SwerveConst;
 import frc.robot.util.SwerveModuleConfig;
@@ -94,10 +96,12 @@ public class SwerveModule {
      */
     public void setAngleState(SwerveModuleState state){
         //Anti Jitter Code, not sure if it works, need to test and review
-        Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= SwerveConst.kMaxAngularSpeedFast * 0.001)
-        ? lastAngle : state.angle;
+        // Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= SwerveConst.kMaxAngularSpeedFast * 0.001)
+        // ? lastAngle : state.angle;
+        Rotation2d angle = state.angle;
 
-
+        SmartDashboard.putString("Module " + driveMotor.getDeviceId() / 10 + " Angle Target", state.angle.getDegrees() + ""); // Added Because angle, due to lastAngle was null, due to having no default -AH 2023-10-31
+        SmartDashboard.putNumber("Module " + driveMotor.getDeviceId() / 10 + " Angle Actual", angleEncoder.getPosition());
         angleController.setReference(angle.getDegrees(), ControlType.kPosition);
         lastAngle = state.angle;
     }
