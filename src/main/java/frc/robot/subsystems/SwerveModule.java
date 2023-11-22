@@ -18,18 +18,20 @@ import frc.robot.Constants.SwerveConst;
 import frc.robot.util.SwerveModuleConfig;
 
 public class SwerveModule {
-    private CANSparkMax angleMotor;
-    private CANSparkMax driveMotor;
+    public CANSparkMax angleMotor;
+    public CANSparkMax driveMotor;
 
     public int moduleNumber;
 
-    private SparkMaxPIDController driveController;
-    private SparkMaxPIDController angleController;
+    public SparkMaxPIDController driveController;
+    public SparkMaxPIDController angleController;
 
     private SimpleMotorFeedforward driveFeedforward;
 
-    private RelativeEncoder driveEncoder;
-    private RelativeEncoder angleEncoder;
+    public RelativeEncoder driveEncoder;
+    public RelativeEncoder angleEncoder;
+    public double angleReference;
+    public double driveReference;
 
     private SparkMaxAbsoluteEncoder absoluteEncoder;
 
@@ -37,7 +39,8 @@ public class SwerveModule {
     private Rotation2d lastAngle;
 
     public SwerveModule(int moduleNumber, SwerveModuleConfig config){
-        
+        this.moduleNumber = moduleNumber;
+
         driveMotor = new CANSparkMax(config.driveMotorID, MotorType.kBrushless);
         angleMotor = new CANSparkMax(config.angleMotorID, MotorType.kBrushless);
 
@@ -85,8 +88,8 @@ public class SwerveModule {
         } else {
             driveController.setReference(state.speedMetersPerSecond, ControlType.kVelocity, 0, 
                                                         driveFeedforward.calculate(state.speedMetersPerSecond));
+            driveReference = state.speedMetersPerSecond;
         }
-
     }
 
     /**
@@ -99,10 +102,9 @@ public class SwerveModule {
         // Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= SwerveConst.kMaxAngularSpeedFast * 0.001)
         // ? lastAngle : state.angle;
         Rotation2d angle = state.angle;
-
-        SmartDashboard.putString("Module " + driveMotor.getDeviceId() / 10 + " Angle Target", state.angle.getDegrees() + ""); // Added Because angle, due to lastAngle was null, due to having no default -AH 2023-10-31
-        SmartDashboard.putNumber("Module " + driveMotor.getDeviceId() / 10 + " Angle Actual", angleEncoder.getPosition());
+        
         angleController.setReference(angle.getDegrees(), ControlType.kPosition);
+        angleReference = angle.getDegrees();
         lastAngle = state.angle;
     }
 
@@ -148,7 +150,7 @@ public class SwerveModule {
         /* Inverts if necesary */
         positionDeg *= (Module.absoluteEncoderInverted ? -1 : 1);
 
-        return new Rotation2d(positionDeg);
+        return new Rotation2d(Math.toRadians(positionDeg));
     }
 
     /**
@@ -217,8 +219,8 @@ public class SwerveModule {
         angleController.setD(Module.kDAngle);
 
         /* Defines wheel angles as -pi to pi */
-        angleController.setPositionPIDWrappingMaxInput(Math.PI);
-        angleController.setPositionPIDWrappingMinInput(-Math.PI);
+        angleController.setPositionPIDWrappingMaxInput(180.0d);
+        angleController.setPositionPIDWrappingMinInput(-180.0d);
         angleController.setPositionPIDWrappingEnabled(true);
 
         angleMotor.setSmartCurrentLimit(Module.kAngleCurrentLimit);
@@ -233,6 +235,6 @@ public class SwerveModule {
      */
     public void setIntegratedAngleToAbsolute(){
         // Disabled to allow non absolute motor movement for bench testing 10/27 -AH
-        // angleEncoder.setPosition(getAbsolutePosition().getDegrees());
+        angleEncoder.setPosition(getAbsolutePosition().getDegrees());
     }
 }

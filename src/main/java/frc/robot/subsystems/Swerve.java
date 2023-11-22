@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,30 +60,25 @@ public class Swerve extends SubsystemBase {
 
     //field.setRobotPose(getPose());
 
-    for (SwerveModule m : modules) {
-      SmartDashboard.putNumber(
-              "Mod " + m.moduleNumber + " Cancoder", m.getAbsolutePosition().getDegrees());
-      SmartDashboard.putNumber(
-              "Mod " + m.moduleNumber + " Integrated", m.getState().angle.getDegrees());
-      SmartDashboard.putNumber(
-              "Mod " + m.moduleNumber + " Velocity", m.getState().speedMetersPerSecond);
-  }
+
   }
 
   /**
    * Runs all IK and sets modules staes
    * @param translate Desired translations speeds m/s
-   * @param rotate Desired rotation rate deg/s
+   * @param rotate Desired rotation rate Rotation2d
    * @param fieldRelative Driving mode
    * @param isOpenLoop Drive controller mode
    */
   public void drive(Translation2d translate, Rotation2d rotate, boolean fieldRelative, boolean isOpenLoop){
     chassisSpeeds = fieldRelative ? 
-      ChassisSpeeds.fromFieldRelativeSpeeds(translate.getX(), translate.getY(), rotate.getDegrees(), getYaw())
-      : new ChassisSpeeds(translate.getX(), translate.getY(), rotate.getDegrees());
+      ChassisSpeeds.fromFieldRelativeSpeeds(translate.getX(), translate.getY(), rotate.getRadians(), getYaw())
+      : new ChassisSpeeds(translate.getX(), translate.getY(), rotate.getRadians());
 
     SwerveModuleState[] swerveModuleStates = Constants.SwerveConst.kinematics.toSwerveModuleStates(chassisSpeeds);
+  
 
+    
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConst.kMaxSpeedTele);
 
     for(SwerveModule m : modules){
@@ -140,6 +136,57 @@ public class Swerve extends SubsystemBase {
   public void resetAllModulestoAbsol(){
     for(SwerveModule m : modules){
       m.setIntegratedAngleToAbsolute();
+    }
+  }
+
+  public void sendAngleDiagnostic(){
+    for(SwerveModule m : modules){
+      SmartDashboard.putNumber("Module " + m.driveMotor.getDeviceId() / 10 + " Angle Actual", m.angleEncoder.getPosition());
+    }
+  }
+
+  public void sendAngleTargetDiagnostic(){
+    for(SwerveModule m : modules){
+      SmartDashboard.putNumber("Module " + m.driveMotor.getDeviceId() / 10 + " Angle Target", m.angleReference);
+    }
+  }
+
+  public void sendDriveDiagnostic(){
+    for(SwerveModule m : modules){
+      SmartDashboard.putNumber("Module " + m.driveMotor.getDeviceId() / 10 + " Velocity Actual", m.driveEncoder.getVelocity());
+    }
+  }
+
+  public void sendDriveTargetDiagnostic(){
+    for(SwerveModule m : modules){
+      SmartDashboard.putNumber("Module " + m.driveMotor.getDeviceId() / 10 + " Velocity Target", m.driveReference);
+    }
+  }
+
+  public void sendAbsoluteDiagnostic(){
+    for(SwerveModule m : modules){
+      SmartDashboard.putNumber("Module " + m.driveMotor.getDeviceId()/10 + " Absolute", m.getAbsolutePosition().getDegrees());
+    }
+  }
+
+  public void sendSmartDashboardDiagnostics(){
+    // sendAngleDiagnostic();
+    // sendAngleTargetDiagnostic();
+
+    sendDriveDiagnostic();
+    sendDriveTargetDiagnostic();
+    // sendAbsoluteDiagnostic();
+
+    
+  }
+
+  public void jogSingleModule(int moduleNumber, double input, boolean drive){
+    if(drive){
+      modules[moduleNumber].setDriveState(new SwerveModuleState(input, new Rotation2d(0)), false);
+      DriverStation.reportWarning(modules[moduleNumber].driveMotor.getDeviceId() +"", false);
+    } else{
+      modules[moduleNumber].setAngleState(new SwerveModuleState(0, new Rotation2d(Math.toRadians(input))));
+      DriverStation.reportWarning(modules[moduleNumber].angleMotor.getDeviceId() +"", false);
     }
   }
 

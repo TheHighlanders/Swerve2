@@ -108,18 +108,18 @@ public class SwerveTeleCMD extends CommandBase {
     double rotationVal;
     double strafeVal = strafeLimiter.calculate(MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.SwerveConst.kStickDeadband));
 
-    if(gridLineUp.getAsBoolean()){
-      translationVal = MathUtil.clamp(translationController.calculate(s_Swerve.getPose().getX(), Constants.Autonomous.kGridLineUpPos), -1, 1);
+    // if(gridLineUp.getAsBoolean()){
+    //   translationVal = MathUtil.clamp(translationController.calculate(s_Swerve.getPose().getX(), Constants.Autonomous.kGridLineUpPos), -1, 1);
 
-      rotationVal = MathUtil.clamp(translationController.calculate(s_Swerve.getYaw().getDegrees(), Constants.Autonomous.kGridLineUpAngle), -1, 1);
+    //   rotationVal = MathUtil.clamp(translationController.calculate(s_Swerve.getYaw().getDegrees(), Constants.Autonomous.kGridLineUpAngle), -1, 1);
 
-      if(translationController.atSetpoint()){
-        translationVal = 0;
-      }
-    } else {
+    //   if(translationController.atSetpoint()){
+    //     translationVal = 0;
+    //   }
+    // } else {
       rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.SwerveConst.kStickDeadband);
       translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.SwerveConst.kStickDeadband);
-    }
+    // }
 
     s_Swerve.drive(
         new Translation2d(translationLimiter.calculate(translationVal), strafeLimiter.calculate(strafeVal)).times(speedLimit),

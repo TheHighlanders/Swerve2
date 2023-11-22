@@ -44,8 +44,8 @@ public final class Constants {
     public static double accelerationLimit = 5.0;
     public static double slowAccelerationLimit = 4.0;
 
-    public static double angularVelocityLimit = 5.0;
-    public static double slowAngularVelocityLimit = 3.0;
+    public static double angularVelocityLimit = 180.0;
+    public static double slowAngularVelocityLimit = 45.0;
 
   }
 
@@ -80,16 +80,16 @@ public final class Constants {
     public static final double kAnglePositionConversionFactor = kAngleGearRatio * 360.0;
     public static final double kAngleVelocityConverstionFactor = kAnglePositionConversionFactor / 60.0f;
 
-    public static final double kPAngle = 1;
+    public static final double kPAngle = 0.01;
     public static final double kIAngle = 0;
-    public static final double kDAngle = 0;
+    public static final double kDAngle = 0.0005;
 
-    public static final double kPDrive = 1;
-    public static final double kIDrive = 0;
-    public static final double kDDrive = 0;
+    public static final double kPDrive = 0.2;//1.1;
+    public static final double kIDrive = 0;//0.0001;
+    public static final double kDDrive = 0;//5;
 
-    public static final double kSDrive = 0;
-    public static final double kVDrive = 0;
+    public static final double kSDrive = -0.875; //1.625 for V of 0
+    public static final double kVDrive = 5;
     public static final double kADrive = 0;
 
     public static final int kDriveCurrentLimit = 40;
@@ -108,7 +108,7 @@ public final class Constants {
       public static final int driveMotorID = 10;
       public static final int angleMotorID = 11;
 
-      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
+      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(Math.toRadians(76.97476923465729));
 
       public static final SwerveModuleConfig FL0 = new SwerveModuleConfig(
         driveMotorID, 
@@ -120,7 +120,7 @@ public final class Constants {
       public static final int driveMotorID = 20;
       public static final int angleMotorID = 21;
 
-      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
+      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(Math.toRadians(59.69142973423005));
 
       public static final SwerveModuleConfig FR1 = new SwerveModuleConfig(
         driveMotorID, 
@@ -132,7 +132,7 @@ public final class Constants {
       public static final int driveMotorID = 40;
       public static final int angleMotorID = 41;
 
-      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
+      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(Math.toRadians(131.00274682044983));
 
       public static final SwerveModuleConfig BL2 = new SwerveModuleConfig(
         driveMotorID, 
@@ -144,7 +144,7 @@ public final class Constants {
       public static final int driveMotorID = 30;
       public static final int angleMotorID = 31;
 
-      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(0);
+      public static final Rotation2d absoluteEncoderOffset = new Rotation2d(Math.toRadians(170.9482741355896));
 
       public static final SwerveModuleConfig BR3 = new SwerveModuleConfig(
         driveMotorID, 
