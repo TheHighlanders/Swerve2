@@ -77,9 +77,9 @@ public class Swerve extends SubsystemBase {
       ChassisSpeeds.fromFieldRelativeSpeeds(translate.getX(), translate.getY(), rotate.getRadians(), getYaw())
       : new ChassisSpeeds(translate.getX(), translate.getY(), rotate.getRadians());
 
-    SwerveModuleState[] swerveModuleStates = Constants.SwerveConst.kinematics.toSwerveModuleStates(chassisSpeeds);
-  
+    SmartDashboard.putString("Chassis Speeds", chassisSpeeds.vxMetersPerSecond + " " + chassisSpeeds.vyMetersPerSecond);                 
 
+    SwerveModuleState[] swerveModuleStates = Constants.SwerveConst.kinematics.toSwerveModuleStates(chassisSpeeds);
     
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConst.kMaxSpeedTele);
 
@@ -100,7 +100,7 @@ public class Swerve extends SubsystemBase {
    * @return Yaw of gyro, includes zeroing
    */
   public Rotation2d getYaw(){
-    return Rotation2d.fromDegrees(gyro.getYaw());
+    return Rotation2d.fromDegrees(-1 * gyro.getYaw());
   }
 
   /**
@@ -178,6 +178,8 @@ public class Swerve extends SubsystemBase {
     sendDriveDiagnostic();
     sendDriveTargetDiagnostic();
     // sendAbsoluteDiagnostic();
+
+    SmartDashboard.putNumber("NavX Angle", getYaw().getDegrees());
 
     
   }

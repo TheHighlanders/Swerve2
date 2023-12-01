@@ -49,8 +49,8 @@ public class RobotContainer {
   private void setDefaultCommands() {
     s_Swerve.setDefaultCommand(new SwerveTeleCMD(
       s_Swerve,
-      () -> -driver.getRawAxis(translationAxis),
-      () -> -driver.getRawAxis(strafeAxis),
+      () -> driver.getRawAxis(translationAxis),
+      () -> driver.getRawAxis(strafeAxis),
       () -> -driver.getRawAxis(rotationAxis),
       () -> driver.povDown().getAsBoolean(),
       () -> driver.leftBumper().getAsBoolean(),
