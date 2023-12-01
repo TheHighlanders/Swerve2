@@ -59,7 +59,9 @@ public class Swerve extends SubsystemBase {
     //swervePoseEstimator.update(getYaw(), getModulePositions());
 
     //field.setRobotPose(getPose());
-
+    for(SwerveModule m : modules){
+      m.runPeriodicLimiting();
+    }
 
   }
 

@@ -15,11 +15,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.Module;
 import frc.robot.Constants.SwerveConst;
+import frc.robot.util.CANSparkMaxCurrent;
 import frc.robot.util.SwerveModuleConfig;
 
 public class SwerveModule {
-    public CANSparkMax angleMotor;
-    public CANSparkMax driveMotor;
+    public CANSparkMaxCurrent angleMotor;
+    public CANSparkMaxCurrent driveMotor;
 
     public int moduleNumber;
 
@@ -41,8 +42,8 @@ public class SwerveModule {
     public SwerveModule(int moduleNumber, SwerveModuleConfig config){
         this.moduleNumber = moduleNumber;
 
-        driveMotor = new CANSparkMax(config.driveMotorID, MotorType.kBrushless);
-        angleMotor = new CANSparkMax(config.angleMotorID, MotorType.kBrushless);
+        driveMotor = new CANSparkMaxCurrent(config.driveMotorID, MotorType.kBrushless);
+        angleMotor = new CANSparkMaxCurrent(config.angleMotorID, MotorType.kBrushless);
 
         driveEncoder = driveMotor.getEncoder();
         angleEncoder = angleMotor.getEncoder();
@@ -194,7 +195,8 @@ public class SwerveModule {
         driveController.setI(Module.kIDrive);
         driveController.setD(Module.kDDrive);
 
-        driveMotor.setSmartCurrentLimit(Module.kDriveCurrentLimit);
+        // driveMotor.setSmartCurrentLimit(Module.kDriveCurrentLimit);
+        driveMotor.setSpikeCurrentLimit(Module.DriveCurrentLimit.kLimitToAmps, Module.DriveCurrentLimit.kMaxSpikeTime, Module.DriveCurrentLimit.kMaxSpikeAmps, Module.DriveCurrentLimit.kSmartLimit);
 
         driveMotor.burnFlash();
         driveEncoder.setPosition(0.0);
@@ -223,7 +225,9 @@ public class SwerveModule {
         angleController.setPositionPIDWrappingMinInput(-180.0d);
         angleController.setPositionPIDWrappingEnabled(true);
 
-        angleMotor.setSmartCurrentLimit(Module.kAngleCurrentLimit);
+        // angleMotor.setSmartCurrentLimit(Module.kAngleCurrentLimit);
+        angleMotor.setSpikeCurrentLimit(Module.AngleCurrentLimit.kLimitToAmps, Module.AngleCurrentLimit.kMaxSpikeTime, Module.AngleCurrentLimit.kMaxSpikeAmps, Module.AngleCurrentLimit.kSmartLimit);
+
 
         angleMotor.burnFlash();
 
@@ -236,5 +240,10 @@ public class SwerveModule {
     public void setIntegratedAngleToAbsolute(){
         // Disabled to allow non absolute motor movement for bench testing 10/27 -AH
         angleEncoder.setPosition(getAbsolutePosition().getDegrees());
+    }
+
+    public void runPeriodicLimiting(){
+        driveMotor.periodicLimit();
+        angleMotor.periodicLimit();
     }
 }
