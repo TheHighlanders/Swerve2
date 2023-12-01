@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private double currentVeloc = 1; //TODO: Delete After Drive Tuning 11-3
+  private double currentVeloc = 0.5; //TODO: Delete After Drive Tuning 11-3
   private RobotContainer m_robotContainer;
 
   /**
