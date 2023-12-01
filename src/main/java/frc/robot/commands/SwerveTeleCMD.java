@@ -26,7 +26,7 @@ public class SwerveTeleCMD extends CommandBase {
   private DoubleSupplier rotationSup;
   private BooleanSupplier robotCentricSup;
   private BooleanSupplier leftBumper;
-  private BooleanSupplier gridLineUp;
+  // private BooleanSupplier gridLineUp;
 
   private SlewRateLimiter translationLimiter;
   private SlewRateLimiter strafeLimiter;
@@ -54,7 +54,7 @@ public class SwerveTeleCMD extends CommandBase {
     this.rotationSup = rotationSup;
     this.robotCentricSup = robotCentricSup;
     this.leftBumper = leftBumper;
-    this.gridLineUp = gridLineUp;
+    // this.gridLineUp = gridLineUp;
 
     addRequirements(s_Swerve);
   }

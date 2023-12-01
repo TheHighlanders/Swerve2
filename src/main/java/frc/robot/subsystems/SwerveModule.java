@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -11,8 +10,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.Module;
 import frc.robot.Constants.SwerveConst;
 import frc.robot.util.CANSparkMaxCurrent;
@@ -37,7 +34,7 @@ public class SwerveModule {
     private SparkMaxAbsoluteEncoder absoluteEncoder;
 
     private Rotation2d moduleAbsoluteOffset;
-    private Rotation2d lastAngle;
+    // private Rotation2d lastAngle;
 
     public SwerveModule(int moduleNumber, SwerveModuleConfig config){
         this.moduleNumber = moduleNumber;
@@ -106,7 +103,7 @@ public class SwerveModule {
         
         angleController.setReference(angle.getDegrees(), ControlType.kPosition);
         angleReference = angle.getDegrees();
-        lastAngle = state.angle;
+        // lastAngle = state.angle;
     }
 
     /**
