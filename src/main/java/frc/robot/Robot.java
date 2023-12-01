@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private double currentVeloc = 0.5; //TODO: Delete After Drive Tuning 11-3
+  private double currentVeloc = 45; //TODO: Delete After Drive Tuning 11-3
   private RobotContainer m_robotContainer;
 
   /**
@@ -88,8 +88,8 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    int moduleToJog = 0;
-    m_robotContainer.s_Swerve.jogSingleModule(moduleToJog, currentVeloc, true);
+    int moduleToJog = 1;
+    m_robotContainer.s_Swerve.jogSingleModule(moduleToJog, currentVeloc, false);
     currentVeloc *= -1;
   }
 

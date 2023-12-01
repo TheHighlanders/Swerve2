@@ -94,9 +94,9 @@ public final class Constants {
     public static final double kAnglePositionConversionFactor = kAngleGearRatio * 360.0;
     public static final double kAngleVelocityConverstionFactor = kAnglePositionConversionFactor / 60.0f;
 
-    public static final double kPAngle = 0.01;
-    public static final double kIAngle = 0;
-    public static final double kDAngle = 0.0005;
+    public static final double kPAngle = 0.05;// AIR 0.01;
+    public static final double kIAngle = 0; // AIR 0;
+    public static final double kDAngle = 0.002; // AIR 0.0005;
 
     public static final double kPDrive = 0.1;//1.1;
     public static final double kIDrive = 0.0005;//0.0001; 

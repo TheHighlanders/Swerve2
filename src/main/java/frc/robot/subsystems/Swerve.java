@@ -48,15 +48,15 @@ public class Swerve extends SubsystemBase {
 
     field = new Field2d();
 
-    //swervePoseEstimator = new SwerveDrivePoseEstimator(Constants.SwerveConst.kinematics, getYaw(), getModulePositions(), new Pose2d());
+    swervePoseEstimator = new SwerveDrivePoseEstimator(Constants.SwerveConst.kinematics, getYaw(), getModulePositions(), new Pose2d());
 
     chassisSpeeds = new ChassisSpeeds();
-    SmartDashboard.putData(field);
+    // SmartDashboard.putData(field);
   }
 
   @Override
   public void periodic() {
-    //swervePoseEstimator.update(getYaw(), getModulePositions());
+    swervePoseEstimator.update(getYaw(), getModulePositions());
 
     //field.setRobotPose(getPose());
     for(SwerveModule m : modules){
@@ -66,7 +66,7 @@ public class Swerve extends SubsystemBase {
   }
 
   /**
-   * Runs all IK and sets modules staes
+   * Runs all IK and sets modules states
    * @param translate Desired translations speeds m/s
    * @param rotate Desired rotation rate Rotation2d
    * @param fieldRelative Driving mode
@@ -76,8 +76,6 @@ public class Swerve extends SubsystemBase {
     chassisSpeeds = fieldRelative ? 
       ChassisSpeeds.fromFieldRelativeSpeeds(translate.getX(), translate.getY(), rotate.getRadians(), getYaw())
       : new ChassisSpeeds(translate.getX(), translate.getY(), rotate.getRadians());
-
-    SmartDashboard.putString("Chassis Speeds", chassisSpeeds.vxMetersPerSecond + " " + chassisSpeeds.vyMetersPerSecond);                 
 
     SwerveModuleState[] swerveModuleStates = Constants.SwerveConst.kinematics.toSwerveModuleStates(chassisSpeeds);
     
@@ -172,15 +170,17 @@ public class Swerve extends SubsystemBase {
   }
 
   public void sendSmartDashboardDiagnostics(){
-    // sendAngleDiagnostic();
-    // sendAngleTargetDiagnostic();
+    sendAngleDiagnostic();
+    sendAngleTargetDiagnostic();
 
-    sendDriveDiagnostic();
-    sendDriveTargetDiagnostic();
-    // sendAbsoluteDiagnostic();
+    // sendDriveDiagnostic();
+    // sendDriveTargetDiagnostic();
+    sendAbsoluteDiagnostic();
 
     SmartDashboard.putNumber("NavX Angle", getYaw().getDegrees());
-
+    SmartDashboard.putNumber("Pose X", getPose().getX());
+    SmartDashboard.putNumber("Pose Y", getPose().getY());
+    SmartDashboard.putNumber("Pose Theta", getPose().getRotation().getDegrees());
     
   }
 
