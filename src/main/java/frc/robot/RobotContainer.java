@@ -44,6 +44,8 @@ public class RobotContainer {
   private void configureBindings() {
     DriverStation.silenceJoystickConnectionWarning(true);
     driver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+    driver.x().onTrue(new InstantCommand(() -> s_Swerve.resetAllModulestoAbsol()));
   }
 
   private void setDefaultCommands() {
