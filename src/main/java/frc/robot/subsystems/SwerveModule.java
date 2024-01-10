@@ -31,9 +31,9 @@ public class SwerveModule {
     public double angleReference;
     public double driveReference;
 
-    private SparkMaxAbsoluteEncoder absoluteEncoder;
+    public SparkMaxAbsoluteEncoder absoluteEncoder;
 
-    private Rotation2d moduleAbsoluteOffset;
+    private Rotation2d KModuleAbsoluteOffset;
     // private Rotation2d lastAngle;
 
     public SwerveModule(int moduleNumber, SwerveModuleConfig config){
@@ -53,7 +53,7 @@ public class SwerveModule {
 
         absoluteEncoder = angleMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
 
-        this.moduleAbsoluteOffset = config.absoluteEncoderOffset;
+        this.KModuleAbsoluteOffset = config.absoluteEncoderOffset;
 
         configureDriveMotor();
         configureAngleMotor();
@@ -143,12 +143,12 @@ public class SwerveModule {
         double positionDeg = absoluteEncoder.getPosition() * 360.0d;
         
         /*Subtracts magnetic offset to get wheel position */
-        positionDeg -= moduleAbsoluteOffset.getDegrees();
+        positionDeg -= KModuleAbsoluteOffset.getDegrees();
 
         /* Inverts if necesary */
-        positionDeg *= (Module.absoluteEncoderInverted ? -1 : 1);
+        positionDeg *= (Module.KAbsoluteEncoderInverted ? -1 : 1);
 
-        return new Rotation2d(Math.toRadians(positionDeg));
+        return Rotation2d.fromDegrees(positionDeg);
     }
 
     /**

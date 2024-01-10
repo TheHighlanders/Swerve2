@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -88,14 +91,17 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    int moduleToJog = 1;
-    m_robotContainer.s_Swerve.jogSingleModule(moduleToJog, currentVeloc, false);
-    currentVeloc *= -1;
+    // int moduleToJog = 1;
+    // m_robotContainer.s_Swerve.jogSingleModule(moduleToJog, currentVeloc, false);
+    // currentVeloc *= -1;
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    DriverStation.reportWarning(m_robotContainer.s_Swerve.modules[1].getAbsolutePosition().getDegrees() + "",false);
+
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override

@@ -113,7 +113,7 @@ public final class Constants {
 
     public static final boolean angleMotorInverted = false;
     public static final boolean driveMotorInverted = false;
-    public static final boolean absoluteEncoderInverted = false;
+    public static final boolean KAbsoluteEncoderInverted = false;
   }
 
   public static class Modules {
