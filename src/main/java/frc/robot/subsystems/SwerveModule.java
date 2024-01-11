@@ -34,7 +34,7 @@ public class SwerveModule {
     public SparkMaxAbsoluteEncoder absoluteEncoder;
 
     private Rotation2d KModuleAbsoluteOffset;
-    // private Rotation2d lastAngle;
+    private Rotation2d lastAngle;
 
     public SwerveModule(int moduleNumber, SwerveModuleConfig config){
         this.moduleNumber = moduleNumber;
@@ -96,13 +96,14 @@ public class SwerveModule {
      * @param state: Desired module state
      */
     public void setAngleState(SwerveModuleState state){
-        //Anti Jitter Code, not sure if it works, need to test and review
-        // Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= SwerveConst.kMaxAngularSpeedFast * 0.001)
-        // ? lastAngle : state.angle;
-        Rotation2d angle = state.angle;
-        
-        angleController.setReference(angle.getDegrees(), ControlType.kPosition);
-        angleReference = angle.getDegrees();
+        // Anti Jitter Code, not sure if it works, need to test and review
+        Rotation2d angle = (Math.abs(state.speedMetersPerSecond) <= SwerveConst.kMaxAngularSpeedFast * 0.001)
+        ? lastAngle : state.angle;
+        // Rotation2d angle = state.angle;
+        if (angle != null){
+            angleController.setReference(angle.getDegrees(), ControlType.kPosition);
+            angleReference = angle.getDegrees();
+        }
         // lastAngle = state.angle;
     }
 

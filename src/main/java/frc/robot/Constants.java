@@ -98,11 +98,11 @@ public final class Constants {
     public static final double kIAngle = 0; // AIR 0;
     public static final double kDAngle = 0.002; // AIR 0.0005;
 
-    public static final double kPDrive = 0.1;//1.1;
+    public static final double kPDrive = 0.2;//1.1;
     public static final double kIDrive = 0.0005;//0.0001; 
     public static final double kDDrive = 3;//5; 
 
-    public static final double kSDrive = 0.375; //1.625 for V of 0
+    public static final double kSDrive = 0.375; // 0.375
     public static final double kVDrive = 2.5;
     public static final double kADrive = 0;
 

@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -152,9 +155,13 @@ public class Swerve extends SubsystemBase {
   }
 
   public void sendDriveDiagnostic(){
+    double[] wheelSpeeds = new double[4];
     for(SwerveModule m : modules){
       SmartDashboard.putNumber("Module " + m.driveMotor.getDeviceId() / 10 + " Velocity Actual", m.driveEncoder.getVelocity());
+      wheelSpeeds[m.driveMotor.getDeviceId()/10 - 1] = m.driveEncoder.getVelocity();
     }
+
+    SmartDashboard.putNumber("Velocity Range", Math.abs(Arrays.stream(wheelSpeeds).max().getAsDouble()) - Math.abs(Arrays.stream(wheelSpeeds).min().getAsDouble()));
   }
 
   public void sendDriveTargetDiagnostic(){
@@ -174,9 +181,10 @@ public class Swerve extends SubsystemBase {
     sendAngleDiagnostic();
     sendAngleTargetDiagnostic();
 
-    // sendDriveDiagnostic();
-    // sendDriveTargetDiagnostic();
-    sendAbsoluteDiagnostic();
+    sendDriveDiagnostic();
+    sendDriveTargetDiagnostic();
+   
+    // sendAbsoluteDiagnostic();
 
     SmartDashboard.putNumber("NavX Angle", getYaw().getDegrees());
     SmartDashboard.putNumber("Pose X", getPose().getX());
@@ -193,6 +201,10 @@ public class Swerve extends SubsystemBase {
       modules[moduleNumber].setAngleState(new SwerveModuleState(0, new Rotation2d(Math.toRadians(input))));
       DriverStation.reportWarning(modules[moduleNumber].angleMotor.getDeviceId() +"", false);
     }
+  }
+
+  public void jogAllModuleDrive(double v){
+    drive(new Translation2d(0, v), new Rotation2d(0), true, false);
   }
 
 }
